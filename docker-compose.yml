@@ -1,0 +1,89 @@
+version: '3.8'
+
+x-amqp-environment: &amqpSettings
+  # nw-notifications contains messages sent by the worker to inform nightwatch
+  # about completed tasks and to send data, logs and metrics.
+  AMQP_NOTIFICATION_CHANNEL: nw-notifications
+  # nw-working queues messages that contain tasks for the worker. The worker
+  # takes one message at a time and works on the task. If the task is finished,
+  # rabbitmq gets informed that the task is completed and the message can be
+  # deleted. In case the worker crashes, the message gets queued again.
+  AMQP_WORKING_QUEUE_CHANNEL: nw-working
+  AMQP_URL: amqp://guest:guest@rabbitmq:5672/%2F
+x-db-environment: &dbSettings
+  POSTGRES_PASSWORD: nw
+  POSTGRES_USER: nw
+  POSTGRES_DB: nw
+
+services:
+  worker:
+    # The worker contains all python scripts that are used to process metadata.
+    # Whenever the scripts are changed or new scripts are added, this container
+    # has to be restarted for python to reload all modules using
+    # "docker compose restart worker"
+    deploy:
+      # It's easily possible to have several workers running at the same time:
+      replicas: 5
+    image: gitlab.suub.uni-bremen.de:5050/public-projects/nightwatch-deployment/worker:latest
+    environment:
+      << : *amqpSettings
+      # Set the loglevel to DEBUG
+      WORKER_LOGLEVEL: DEBUG
+      # The internal directory, where (meta-)data is stored
+      METADATA: /data
+    volumes:
+      # This mounts the data in "test-metadata" into the METADATA directory of the
+      # worker.
+      - ./test-metadata:/data
+      # Mount scripts into container
+      - ./metadata-worker/worker/tasks:/worker/tasks
+      # Install additional linux packages and python libraries
+      - ./metadata-worker/install_additional_pkgs.sh:/install_additional.sh:Z
+
+  rabbitmq:
+    container_name: nightwatch-rabbitmq
+    # The rabbitmq image is built containing the management feature (available on
+    # port 15672) and the amqp plugin.
+    build: ./rabbitmq
+    hostname: rabbit-local
+    ports:
+      - "15672:15672"
+    volumes:
+      # mount rabbitmq configuration. The configuration contains the setting 
+      # "consumer_timeout", this is needed if there are long running tasks. It is 
+      # set to 10 hours but can be changed in the config file.
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+
+  redis:
+    container_name: nightwatch-redis
+    image: redis:5.0.3
+
+  db:
+    container_name: nightwatch-db
+    image: postgres:15.2
+    environment: *dbSettings
+    volumes:
+      # setup db
+      - ./migrations/:/docker-entrypoint-initdb.d/
+      # make persistent
+      - nwdata:/var/lib/postgresql/data
+
+  nightwatch:
+    container_name: nightwatch
+    image: gitlab.suub.uni-bremen.de:5050/public-projects/nightwatch-deployment/nightwatch:latest
+    volumes:
+      # mount configuration
+      - ./.nightwatchrc:/app/.nightwatchrc
+    environment:
+      # nightwatch needs to know where to find all the other components and how to
+      # connect to them
+      << : [*amqpSettings, *dbSettings]
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      DB_HOST: db
+      DB_PORT: 5432
+    ports:
+      - "4000:4000"
+    
+volumes:
+  nwdata:
