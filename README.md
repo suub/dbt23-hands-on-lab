@@ -1,4 +1,9 @@
-# Nightwatch Deployment
+# Nightwatch Workshop
+
+## TODO Goal of this workshop
+
+Maybe add a slide that contains crossref -> db -> solr -> search
+
 
 ![Nightwatch architecture diagram. The User Interface Nightwatch is bidirectionally connected to redis for supervising each job's status and to a PostreSQL to store data.](docs/Nightwatch_architecture.png)
 
@@ -9,15 +14,21 @@
 * docker compose (included in docker desktop or https://docs.docker.com/compose/install/)
 
 
-## Getting Started
+## Preparation
 
-Clone this repository including the submodule `metadata-worker` that contains the actual scripts to process metadata
+Clone this repository
 
 ```
-git clone https://gitlab.suub.uni-bremen.de/public-projects/nightwatch-deployment.git --recursive
+git clone https://gitlab.suub.uni-bremen.de/public-projects/nightwatch-workshop.git
 ```
 
-To start nightwatch and all its components run
+Pull all images (could take a few minutes, don't use mobile data)
+
+```
+docker compose pull
+```
+
+and check if you can start them on your computer with
 
 ```
 docker compose up -d
@@ -25,15 +36,9 @@ docker compose up -d
 
 The nightwatch UI will be available at `localhost:4000` after a few seconds.
 
-![Nightwatch UI showing multiple jobs and their status](docs/nightwatch.png)
-
-
-## Usage
-
-See the [wiki](https://gitlab.suub.uni-bremen.de/public-projects/nightwatch-deployment/-/wikis/Getting-Startet)
 
 ## Support
 
-If you find a bug or have ideas for features and improvement, please don't hesitate to create an issue.
+If you have issues, please don't hesitate to contact us before the hands-on lab.
 
-[Contact us](mailto:nightwatch@suub.uni-bremen.de)
+[Contact us](mailto:nitghtwatch@suub.uni-bremen.de)
