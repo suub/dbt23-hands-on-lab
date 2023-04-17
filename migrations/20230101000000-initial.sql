@@ -99,3 +99,16 @@ CREATE TABLE mail_queue (
     status_changed_at timestamp with time zone,
     primary key (mail_address, mail_type_id)
 );
+
+CREATE TABLE records (
+	id text NOT NULL,
+	"source" text NOT NULL,
+	created timestamptz NOT NULL,
+	title text NOT NULL,
+	contributors jsonb NULL,
+	publication_date _int2 NULL,
+	access_options jsonb NULL,
+	identifiers jsonb NULL,
+	license text NULL,
+	CONSTRAINT records_pkey PRIMARY KEY (id)
+);
