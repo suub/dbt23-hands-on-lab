@@ -23,7 +23,8 @@ services:
     # "docker compose restart worker"
     deploy:
       # It's easily possible to have several workers running at the same time:
-      replicas: 5
+      replicas: 1
+    container_name: nightwatch-worker
     image: gitlab.suub.uni-bremen.de:5050/public-projects/nightwatch-deployment/worker:latest
     environment:
       << : *amqpSettings
@@ -84,6 +85,21 @@ services:
       DB_PORT: 5432
     ports:
       - "4000:4000"
+
+  solr:
+    image: solr:9.2
+    container_name: nightwatch-solr
+    volumes:
+      - ./solr/solr_data:/var/solr
+    environment:
+      - SOLR_JAVA_MEM="-Xms1g -Xmx1g"
+    ports:
+      - "8983:8983"
+    command:
+      - solr-precreate
+      - workshop
+
+      
     
 volumes:
   nwdata:

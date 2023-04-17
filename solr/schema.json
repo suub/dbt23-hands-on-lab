@@ -1,0 +1,29 @@
+{
+    "add-field": [
+        {
+            "name": "title",
+            "type": "text_general",
+            "stored": true,
+            "indexed": true
+        },
+        {
+            "name": "authors",
+            "type": "text_general",
+            "stored": true,
+            "indexed": true,
+            "multiValued": true
+        },
+        {
+            "name": "year",
+            "type": "pint",
+            "stored": true,
+            "indexed": true
+        },
+        {
+            "name": "issn",
+            "type": "strings",
+            "stored": true,
+            "indexed": true
+        }
+    ]
+}
