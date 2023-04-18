@@ -12,5 +12,5 @@ echo "Installing apt packages"
 echo "Installing python libraries"
 
 # installing python packages
-poetry add httpx
+poetry add httpx=0.16.1
 poetry add psycopg2-binary
