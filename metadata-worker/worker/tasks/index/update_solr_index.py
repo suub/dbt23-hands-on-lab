@@ -2,12 +2,28 @@ import psycopg2
 from datetime import datetime, timezone
 from psycopg2.sql import SQL, Identifier
 from psycopg2.extras import DictCursor
-from ...nightwatch.utils import Result
-from ...nw.utils import httpxClient
+from worker.nw.utils import Result
+from worker.tasks.utils import httpxClient
+from worker.nw.log import get_logger
 
-
+logger = get_logger(__name__)
 CHUNK_SIZE = 10_000
+get_logger("worker").setLevel("DEBUG")
 
+# error:
+# 1: Exception running worker.tasks.index.update_solr_index
+# 2: Traceback (most recent call last):
+#   File "/worker/nw/amqp_worker.py", line 80, in process_msg
+#     result = module.run(opts)
+#   File "/worker/tasks/index/update_solr_index.py", line 19, in run
+#     updated_count, solr_count = update_records(
+#   File "/worker/tasks/index/update_solr_index.py", line 89, in update_records
+#     result = httpxClient.get(query_url)
+#   File "/worker/tasks/utils/httpxClient.py", line 15, in get
+#     with customClient:
+#   File "/root/.cache/pypoetry/virtualenvs/worker-il7asoJj-py3.9/lib/python3.9/site-packages/httpx/_client.py", line 1269, in __enter__
+#     raise RuntimeError(msg)
+# RuntimeError: Cannot reopen a client instance, once it has been closed.
 
 def run(opts):
     solr_url, db, table, last_index = get_params(opts["params"])
@@ -77,6 +93,7 @@ def update_records(solr_url, db_con, table, last_index):
         records = [dict(r) for r in db_records]
         records = [convert_db_record(r) for r in records]
         body = {"add": records}
+        logger.debug(f"posting to {update_url}")
         httpxClient.post(update_url, json=body)
         updated_record_count += len(records)
         db_records = cur.fetchmany(CHUNK_SIZE)
@@ -130,9 +147,6 @@ def get_authors(db_record):
 
 
 def get_year(db_record):
-    if db_record["type"] == "journal":
-        return get_first_publication_date(db_record)
-
     if not db_record.get("publication_date"):
         return None
 
@@ -144,21 +158,6 @@ def get_identifiers(db_record, identifier):
 
     if db_record["identifiers"]:
         identifiers += extract_identifiers(db_record["identifiers"], identifier)
-
-    if db_record["containers"]:
-        for container in db_record["containers"]:
-
-            if (
-                container.get("type")
-                and container["type"] not in INDEXED_CONTAINER_TYPES
-            ):
-                continue
-
-            container_identifiers = container.get("identifiers")
-            if container_identifiers:
-                identifiers += extract_identifiers(
-                    container_identifiers, identifier
-                )
 
     return identifiers
 
