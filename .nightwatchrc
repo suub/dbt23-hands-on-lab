@@ -1,0 +1,21 @@
+{
+  "port": 4000,
+  "host": "http://localhost:4000",
+  "session": {
+    "secret": "secret"
+  },
+  "env": "dev",
+  "services": {
+    "amqp": true
+  },
+  "mail": {
+    "from": "mail@example.xom",
+    "port": 587,
+    "host": "example.com",
+    "secure": false,
+    "auth": {
+      "user": "mail",
+      "pass": "example"
+    }
+  }
+}

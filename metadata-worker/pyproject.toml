@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "metadata-worker"
+version = "0.1.0"
+description = ""
+authors = ["Marie-Saphira Flug <marie-saphira.flug@suub.uni-bremen.de>", "Lena Klaproth <lena.klaproth@suub.uni-bremen.de>", "Daniel Opitz"]
+license = "GPL"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pika = "0.13.1"
+nanoid = "^2.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
