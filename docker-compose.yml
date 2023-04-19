@@ -83,6 +83,7 @@ services:
       REDIS_PORT: 6379
       DB_HOST: db
       DB_PORT: 5432
+      TZ: Europe/Berlin
     ports:
       - "4000:4000"
 
