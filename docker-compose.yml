@@ -14,6 +14,8 @@ x-db-environment: &dbSettings
   POSTGRES_PASSWORD: nw
   POSTGRES_USER: nw
   POSTGRES_DB: nw
+
+x-timezone: &tzSettings
   TZ: Europe/Berlin
 
 services:
@@ -28,8 +30,7 @@ services:
     container_name: nightwatch-worker
     image: gitlab.suub.uni-bremen.de:5050/public-projects/nightwatch-deployment/worker:latest
     environment:
-      << : *amqpSettings
-      TZ: Europe/Berlin
+      << : [*amqpSettings, *tzSettings]
       # Set the loglevel to DEBUG
       WORKER_LOGLEVEL: DEBUG
       # The internal directory, where (meta-)data is stored
@@ -64,7 +65,8 @@ services:
   db:
     container_name: nightwatch-db
     image: postgres:15.2
-    environment: *dbSettings
+    environment: 
+      << : [*dbSettings, *tzSettings]
     volumes:
       # setup db
       - ./migrations/:/docker-entrypoint-initdb.d/
@@ -80,7 +82,7 @@ services:
     environment:
       # nightwatch needs to know where to find all the other components and how to
       # connect to them
-      << : [*amqpSettings, *dbSettings]
+      << : [*amqpSettings, *dbSettings, *tzSettings]
       REDIS_HOST: redis
       REDIS_PORT: 6379
       DB_HOST: db
