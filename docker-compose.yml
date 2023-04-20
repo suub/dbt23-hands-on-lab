@@ -29,6 +29,7 @@ services:
     image: gitlab.suub.uni-bremen.de:5050/public-projects/nightwatch-deployment/worker:latest
     environment:
       << : *amqpSettings
+      TZ: Europe/Berlin
       # Set the loglevel to DEBUG
       WORKER_LOGLEVEL: DEBUG
       # The internal directory, where (meta-)data is stored
