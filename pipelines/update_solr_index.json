@@ -4,7 +4,7 @@
           [
             {
               "id": "worker.tasks.index.update_solr_index",
-              "name": "Get list of directories to import",
+              "name": "update solr_index with latest db entries",
               "params": {
                 "db": "<DB_CON>",
                 "table": "records",
