@@ -2,12 +2,10 @@ import httpx
 
 
 class httpxClient:
-     """
-     A class used to create a httpxClient.
+    """
+    A class used to create a httpxClient.
 
-     If an instance is created it should also be closed after use.
-
-    ...
+    If an instance is created it should also be closed after use.
 
     Methods
     -------
@@ -26,13 +24,14 @@ class httpxClient:
         Parameters
         ----------
         timeout : float
-             The timeout set on the client instance, used as the default timeout for get and post requests
-             Can be overwritten in individual calls in *params
+            Default value: 30 seconds
+            The timeout set on the client instance, used as the default timeout for get and post requests
+            Can be overwritten in individual calls in *params
         """
         self.client = httpx.Client(timeout=timeout)
         return None
 
-    async def close(self):
+    def close(self):
         self.client.close()
         return None
 
