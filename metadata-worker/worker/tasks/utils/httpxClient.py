@@ -10,13 +10,17 @@ class httpxClient:
     Methods
     -------
     get(url, **params)
-        Calls httpx get for given url with custom client and given parameters and retruns the result
+        Calls httpx get for given url with custom client and given parameters
+        and retruns the result
     post(url, **params)
-        Calls httpx post for given url with custom client and given parameters and retruns the result
+        Calls httpx post for given url with custom client and given parameters
+        and retruns the result
     stream(method, url)
-        Calls httpx stream for given url with custom client and given method parameter and retruns the stream
+        Calls httpx stream for given url with custom client and given method
+        parameter and retruns the stream
     checkStatusCodeOK(statusCode)
-        Calls httpx.codes.OK and checks a given statusCode is included and returns an indicating bool
+        Calls httpx.codes.OK and checks a given statusCode is included and
+        returns an indicating bool
     """
 
     def __init__(self, timeout=30.0):
@@ -25,9 +29,11 @@ class httpxClient:
         ----------
         timeout : float
             Default value: 30 seconds
-            The timeout set on the client instance, used as the default timeout for get and post requests
+            The timeout set on the client instance, used as the default
+            timeout for get and post requests
             Can be overwritten in individual calls in *params
         """
+        self.timeout = timeout
         self.client = httpx.Client(timeout=timeout)
         return None
 
@@ -50,7 +56,10 @@ class httpxClient:
         except httpx.ReadTimeout as e:
             if attempt < 3:
                 params["attempt"] = attempt + 1
-                params["timeout"] = params["timeout"] * 2 if "timeout" in params else timeout * 2
+                if "timeout" in params:
+                    params["timeout"] = params["timeout"] * 2
+                else:
+                    params["timeout"] = self.timeout * 2
                 r = self.get(url, **params)
             else:
                 raise e
