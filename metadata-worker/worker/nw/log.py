@@ -8,7 +8,8 @@ __license__ = "GPL"
 __maintainer__ = "Marie-Saphira Flug"
 
 
-FORMATTER = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+FORMATTER = logging.Formatter(
+    "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 
 def get_console_handler():
@@ -22,7 +23,8 @@ def get_logger(logger_name):
 
     logger.addHandler(get_console_handler())
 
-    # with this pattern, it's rarely necessary to propagate the error up to parent
+    # with this pattern, it's rarely necessary to propagate 
+    # the error up to parent
     logger.propagate = False
 
     return logger

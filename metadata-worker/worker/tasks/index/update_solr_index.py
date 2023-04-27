@@ -29,11 +29,40 @@ logger = get_logger(__name__)
 CHUNK_SIZE = 10_000
 
 
-def run(opts):
+def run(opts) -> Result:
+    """
+    This method receives an url to a solr core and deletes all data from it
+
+    Parameters
+    ----------
+    param opts: dict, required
+        Contains parameters given in the blueprint of the pipeline
+        Input parameters in opts["params"]:
+        - param solr_url: str, required
+            url to running solr core
+        - param db: str, required
+            connection detail to database in the following format:
+            "postgresql://<user>:<password>@<host>:<port>/<database>"
+            e.g.: postgresql://nw:nw@nightwatch-db:5432/nw"
+        - param table: str, required
+            name of the db table containing the records to be indexed
+        - param last_index: str, optional
+            date of last indexation, defaults to "2000-01-01T00:00:00+00:00".
+            Has to be in ISO 8601 format (at least YYYY-MM-DD)
+
+    Returns
+    ------
+    Result:
+        - Result
+            A nightwatch Result with the parameters:
+            - param dict metrics: statistics about the solr indexing
+    """
     solr_url, db, table, last_index = get_params(opts["params"])
 
     db_con = psycopg2.connect(db, cursor_factory=DictCursor)
 
+    # get new records from the database, convert them to fit the solr schema
+    # and update the solr index
     updated_count, solr_count = update_records(
         solr_url, db_con, table, last_index
     )
@@ -133,14 +162,14 @@ def convert_db_record(db_record):
 
 def datetime_to_iso(dt):
     """
-    Convert date to iso format
+    Helper: Convert date to iso format
     """
     return dt.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def get_title_author(title, authors):
     """
-    Have the title and first 3 authors on one string
+    Have the title and first 3 authors in one string
     """
     return f'{title} {" ".join(authors[0::2])}'
 
@@ -194,7 +223,7 @@ def get_identifiers(db_record, identifier):
 
 def extract_identifiers(identifiers, identifier_type):
     """
-    Get identifiers of type identifier_type from list
+    Helper: Get identifiers of type identifier_type from list
     """
     filtered = filter(lambda i: i["type"] == identifier_type, identifiers)
     return list(map(lambda i: i["value"], filtered))

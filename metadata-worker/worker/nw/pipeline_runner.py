@@ -146,7 +146,7 @@ class Pipeline:
             for i, j in enumerate(msg["next_tasks"]):
                 if skip_id == j["id"]:
                     skip_step = j
-                    further_skip_steps = msg["next_tasks"][(i + 1) :]
+                    further_skip_steps = msg["next_tasks"][(i + 1):]
 
         priority = (
             msg["priority"] - 1 if msg["priority"] > 0 else msg["priority"]

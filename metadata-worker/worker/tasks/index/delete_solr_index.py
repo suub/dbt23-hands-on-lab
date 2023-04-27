@@ -22,10 +22,38 @@ logger = get_logger(__name__)
 
 
 def run(opts):
+    """
+    This method receives an url to a solr core and deletes all data from it
+
+    Parameters
+    ----------
+    param opts: dict, required
+        Contains parameters given in the blueprint of the pipeline
+        Input parameters in opts["params"]:
+        - param solr_url: str, required
+            url to running solr core
+
+    Returns
+    ------
+    Result:
+        - Result
+            A nightwatch Result with the parameters:
+            - param list logs: information about successful deletion
+              (e.g. error messages)
+    """
     solr_url = opts["params"]["solr_url"]
     update_url = solr_url.rstrip("/") + "/update?commit=true,overwrite=true"
+    logs = []
     # delete everything. Could be changed to only delete certain things by
     # adding a filter here
     body = {"delete": {"query": "*:*"}}
-    httpxClient.post(update_url, json=body)
-    return Result()
+    response = httpxClient.post(update_url, json=body)
+    if httpxClient.checkStatusCodeOK(response.status_code):
+        logger.debug("everything was deleted")
+        logs.append("everything was deleted")
+    else:
+        raise ValueError(f"""something went wrong:
+        response: {response}
+        url: {update_url}
+        body: {body}""")
+    return Result(logs=logs)
