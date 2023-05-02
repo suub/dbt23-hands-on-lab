@@ -31,7 +31,10 @@ CHUNK_SIZE = 10_000
 
 def run(opts) -> Result:
     """
-    This method receives an url to a solr core and deletes all data from it
+    This method receives an url to a solr core and a database connection 
+    and updates the solr index with all records in the db, which have 
+    been modified after a specified date, e.g. the last time the job was 
+    run.
 
     Parameters
     ----------
