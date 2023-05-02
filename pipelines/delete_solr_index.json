@@ -1,0 +1,18 @@
+{
+    "blueprint": {
+        "phases": [
+          [
+            {
+              "id": "worker.tasks.index.delete_solr_index",
+              "name": "delete index content",
+              "params": {
+                "solr_url": "<SOLR_URL>"
+              }
+            }
+          ]
+        ]
+    },
+    "variables": {
+        "SOLR_URL": "http://nightwatch-solr:8983/solr/workshop"
+    }
+}

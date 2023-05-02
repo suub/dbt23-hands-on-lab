@@ -11,4 +11,5 @@ def run(args):
     logger.debug(f"Sleep for {seconds} seconds")
     time.sleep(seconds)
     logger.debug("Finished sleeping")
-    return Result(logs=[[f"Slept for {seconds} seconds"]], metrics={"slept": 1})
+    return Result(
+        logs=[[f"Slept for {seconds} seconds"]], metrics={"slept": 1})

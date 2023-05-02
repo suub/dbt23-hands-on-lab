@@ -11,7 +11,6 @@ blueprint = {
                 "params": {"duration": 6}
             }
         ],
-    
     ]
 }
 
