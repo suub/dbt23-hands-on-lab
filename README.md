@@ -5,7 +5,7 @@
 Maybe add a slide that contains crossref -> db -> solr -> search
 
 
-![Nightwatch architecture diagram. The User Interface Nightwatch is bidirectionally connected to redis for supervising each job's status and to a PostreSQL to store data.](docs/Nightwatch_architecture.png)
+![Nightwatch architecture diagram. The User Interface Nightwatch is bidirectionally connected to redis for supervising each job's status and to a PostgreSQL to store data.](docs/Nightwatch_architecture.png)
 
 
 ## Prerequisites

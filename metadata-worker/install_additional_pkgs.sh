@@ -7,9 +7,10 @@
 echo "Installing apt packages"
 
 # example for installing xsltproc
-apt-get install -y xsltproc
+#apt-get install -y xsltproc
 
 echo "Installing python libraries"
 
-# example for installing python library lxml
-poetry add lxml
+# installing python packages
+poetry add httpx=0.16.1
+poetry add psycopg2-binary

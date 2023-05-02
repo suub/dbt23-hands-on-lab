@@ -1,0 +1,23 @@
+{
+    "blueprint": {
+        "phases": [
+          [
+            {
+              "id": "worker.tasks.index.update_solr_index",
+              "name": "update solr_index with latest db entries",
+              "params": {
+                "db": "<DB_CON>",
+                "table": "records",
+                "solr_url": "<SOLR_URL>",
+                "last_index": "<LAST_INDEX>"
+              }
+            }
+          ]
+        ]
+    },
+    "variables": {
+        "DB_CON": "postgresql://nw:nw@nightwatch-db:5432/nw",
+        "SOLR_URL": "http://nightwatch-solr:8983/solr/workshop",
+        "LAST_INDEX": "$LAST_SUCCESSFUL_RUN"
+    }
+}

@@ -2,16 +2,22 @@
     "add-field": [
         {
             "name": "title",
-            "type": "text_general",
+            "type": "text_de",
             "stored": true,
             "indexed": true
         },
         {
-            "name": "authors",
+            "name": "author",
             "type": "text_general",
             "stored": true,
             "indexed": true,
             "multiValued": true
+        },
+        {
+            "name": "title_authors",
+            "type": "text_de",
+            "indexed": true,
+            "stored": true
         },
         {
             "name": "year",
