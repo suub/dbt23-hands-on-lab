@@ -38,7 +38,8 @@ def run(opts):
     Result:
         - Result
             A nightwatch Result with the parameters:
-            - param list logs: information about successful deletion
+            - param logs: list
+                information about successful deletion
     """
     solr_url = opts["params"]["solr_url"]
     update_url = solr_url.rstrip("/") + "/update?commit=true,overwrite=true"
