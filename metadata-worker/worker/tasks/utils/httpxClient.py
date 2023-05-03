@@ -10,7 +10,7 @@ def get(url, **params):
     if "attempt" in params:
         attempt = params.get("attempt")
         del params["attempt"]
-    else: 
+    else:
         attempt = 0
     with customClient:
         try:

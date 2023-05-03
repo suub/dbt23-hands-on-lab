@@ -1,0 +1,38 @@
+{
+  "blueprint": {
+    "phases": [
+      [
+        {
+          "id": "worker.tasks.download.crossref_downloader",
+          "name": "Download Crossref Metadata",
+          "params": {
+            "directory": "<DOWNLOAD_DIR>",
+            "user_agent": "--email--",
+            "filter_list": [
+              {
+                "issn": "1865-7648",
+                "type": "journal-article",
+                "from-update-date": 2023
+              }
+            ]
+          }
+        }
+      ],
+      [
+        {
+          "id": "worker.tasks.fs.move_dir",
+          "name": "Move downloaded files to import",
+          "params": {
+            "dst": "<IMPORT_DIR>",
+            "src": "<DOWNLOAD_DIR>"
+          }
+        }
+      ]
+    ]
+  },
+  "variables": {
+    "DOWNLOAD_DIR": "$WORKING_DIR/download/$JOB_DATE",
+    "IMPORT_DIR": "$WORKING_DIR/import/$JOB_DATE"
+  },
+  "working_dir": "/data/crossref"
+}
