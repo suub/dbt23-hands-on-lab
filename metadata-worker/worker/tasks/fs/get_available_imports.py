@@ -1,5 +1,5 @@
 """
-Script to get avaiable import ordners from specified loacation,
+Script to get avaiable import folders from specified loacation,
 all subfolders without an imported flag
 
 ================== Nightwatch usage ==================
@@ -30,9 +30,9 @@ example for IMPORT_DIR:
 """
 
 import os
-from ...nightwatch.utils import Result
+from worker.nw.utils import Result
 from pathlib import Path
-from ...log import get_logger
+from worker.nw.log import get_logger
 
 logger = get_logger(__name__)
 

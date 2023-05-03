@@ -27,7 +27,7 @@ be returned.
 
 import os
 import json
-from ...nightwatch.utils import Result
+from worker.nw.utils import Result
 from pathlib import Path
 
 
@@ -38,7 +38,7 @@ def run(opts):
 
     Parameters
     ----------
-    param opts: dict, required                           
+    param opts: dict, required
         - opts["data"]: str, optional                   |
           the path to the file that should be opened    | one of these
         - opts["params"]["path"]: str, optional         | is requried

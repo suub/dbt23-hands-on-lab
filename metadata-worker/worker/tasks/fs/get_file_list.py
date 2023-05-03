@@ -23,7 +23,7 @@ to the next job.
 """
 
 import os
-from ...nightwatch.utils import Result, Many
+from worker.nw.utils import Result, Many
 from pathlib import Path
 
 

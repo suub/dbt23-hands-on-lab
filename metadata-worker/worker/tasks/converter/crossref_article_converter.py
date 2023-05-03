@@ -18,8 +18,8 @@ a list with a dict for each record in the field 'data'
 import re
 import json
 import datetime
-from ...nightwatch.utils import Result
-from ...log import get_logger
+from worker.nw.utils import Result
+from worker.nw.log import get_logger
 
 logger = get_logger(__name__)
 
@@ -95,10 +95,7 @@ def convert(raw_record):
         identifiers, source
     """
     record_title = get_title(raw_record)
-    if not record_title or (
-        record_title.lower()
-        .replace(" ", "")
-    ):
+    if not record_title:
         return None
 
     record = {}

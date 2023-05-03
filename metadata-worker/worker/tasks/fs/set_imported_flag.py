@@ -21,7 +21,7 @@ to the next job.
 """
 
 import os
-from ...nightwatch.utils import Result
+from worker.nw.utils import Result
 from pathlib import Path
 
 
