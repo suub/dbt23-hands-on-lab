@@ -11,16 +11,15 @@ class httpxClient:
     -------
     get(url, **params)
         Calls httpx get for given url with custom client and given parameters
-        and retruns the result
+        and returns the result
     post(url, **params)
         Calls httpx post for given url with custom client and given parameters
-        and retruns the result
+        and returns the result
     stream(method, url)
         Calls httpx stream for given url with custom client and given method
-        parameter and retruns the stream
+        parameter and returns the stream
     checkStatusCodeOK(statusCode)
-        Calls httpx.codes.OK and checks a given statusCode is included and
-        returns an indicating bool
+        Uses httpx.codes.OK to check if given statusCode is OK
     close(self)
         Closes the httpxClient owned by the instance
     """
@@ -32,7 +31,7 @@ class httpxClient:
         param timeout : float
             Default value: 30 seconds
             The timeout set on the client instance, used as the default
-            timeout for get and post requests
+            timeout for get and post requests.
             Can be overwritten in individual calls in *params
         """
         self.timeout = timeout
