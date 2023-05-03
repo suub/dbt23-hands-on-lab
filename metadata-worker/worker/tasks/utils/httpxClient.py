@@ -4,7 +4,8 @@ import httpx
 class httpxClient:
     """
     A class used to create a httpxClient.
-    If an instance is created it should also be closed after use.
+    If an instance is created it the httpxClient owned by the instance should
+    be closed after use.
 
     Methods
     -------
@@ -20,13 +21,15 @@ class httpxClient:
     checkStatusCodeOK(statusCode)
         Calls httpx.codes.OK and checks a given statusCode is included and
         returns an indicating bool
+    close(self)
+        Closes the httpxClient owned by the instance
     """
 
     def __init__(self, timeout=30.0):
         """
         Parameters
         ----------
-        timeout : float
+        param timeout : float
             Default value: 30 seconds
             The timeout set on the client instance, used as the default
             timeout for get and post requests
@@ -34,10 +37,6 @@ class httpxClient:
         """
         self.timeout = timeout
         self.client = httpx.Client(timeout=timeout)
-        return None
-
-    def close(self):
-        self.client.close()
         return None
 
     def __del__(self):
@@ -49,6 +48,10 @@ class httpxClient:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
+
+    def close(self):
+        self.client.close()
+        return None
 
     def get(self, url: str, **params):
         if "attempt" in params:
