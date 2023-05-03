@@ -116,6 +116,7 @@ def update_records(solr_url, db_con, table, last_index) -> (int, int):
     """
     Update solr index
     """
+    customClient = httpxClient.httpxClient()
     updated_record_count = 0
     update_url = solr_url.rstrip("/") + "/update?commit=true,overwrite=true"
     # create a new db cursor called u(pdate)c(ount)
@@ -135,14 +136,16 @@ def update_records(solr_url, db_con, table, last_index) -> (int, int):
         records = [dict(r) for r in db_records]
         records = [convert_db_record(r) for r in records]
         body = {"add": records}
-        httpxClient.post(update_url, json=body)
+        customClient.post(update_url, json=body)
         updated_record_count += len(records)
         db_records = cur.fetchmany(CHUNK_SIZE)
     cur.close()
 
     # count all solr entries for metrics
     query_url = solr_url.rstrip("/") + "/query?q=*:*&wt=json"
-    result = httpxClient.get(query_url)
+    result = customClient.get(query_url)
+
+    customClient.close()
 
     return updated_record_count, result.json()["response"]["numFound"]
 

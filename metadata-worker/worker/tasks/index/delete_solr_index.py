@@ -47,8 +47,10 @@ def run(opts):
     # delete everything. Could be changed to only delete certain things by
     # adding a filter here
     body = {"delete": {"query": "*:*"}}
-    response = httpxClient.post(update_url, json=body)
-    if httpxClient.checkStatusCodeOK(response.status_code):
+    with httpxClient.httpxClient() as customClient:
+        response = customClient.post(update_url, json=body)
+        statusCode = customClient.checkStatusCodeOK(response.status_code)
+    if statusCode:
         logger.debug("everything was deleted")
         logs.append("everything was deleted")
     else:

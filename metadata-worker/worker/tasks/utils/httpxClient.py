@@ -41,8 +41,14 @@ class httpxClient:
         return None
 
     def __del__(self):
-        self.loop.close()
+        self.close()
         return None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
 
     def get(self, url: str, **params):
         if "attempt" in params:
