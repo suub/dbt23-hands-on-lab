@@ -4,7 +4,6 @@ import httpx
 class httpxClient:
     """
     A class used to create a httpxClient.
-
     If an instance is created it should also be closed after use.
 
     Methods
