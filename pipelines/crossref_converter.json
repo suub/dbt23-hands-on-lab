@@ -1,0 +1,54 @@
+{
+    "blueprint": {
+        "phases": [
+          [
+            {
+              "id": "pipelines.tasks.fs.get_available_imports",
+              "name": "Get list of directories to import",
+              "params": {
+                "dir": "<IMPORT_DIR>"
+              },
+              "sentinel": true
+            }
+          ],
+          [
+            {
+              "id": "pipelines.tasks.fs.get_file_list",
+              "name": "Get list of files to import",
+              "params": {
+                "ext": ".json"
+              },
+              "passSentinel": true
+            },
+            {
+              "id": "pipelines.tasks.importers.json",
+              "name": "Read file contents"
+            },
+            {
+              "id": "pipelines.tasks.converters.crossref_article_converter",
+              "name": "Convert to internal schema"
+            },
+            {
+              "id": "pipelines.tasks.db.record_store",
+              "name": "Put records in DB",
+              "params": {
+                "db": "<DB_CON>",
+                "table": "records"
+              }
+            }
+          ],
+          [
+            {
+              "id": "pipelines.tasks.fs.set_imported_flag",
+              "name": "Set imported flag",
+              "passSentinel": true
+            }
+          ]
+        ]
+      },
+    "variables": {
+        "DB_CON": "postgresql://nw:nw@nightwatch-db:5432/nw",
+        "IMPORT_DIR": "$WORKING_DIR/import"
+    }
+
+}
