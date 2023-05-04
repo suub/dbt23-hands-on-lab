@@ -17,7 +17,7 @@ a list with a dict for each record in the field 'data'
 
 import re
 import json
-import datetime
+from datetime import datetime
 from worker.nw.utils import Result
 from worker.nw.log import get_logger
 
@@ -318,9 +318,8 @@ def get_publication_date(raw_record):
     published_online = raw_record.get("published-online")
     if published_online:
         online_publication_date = published_online["date-parts"][0]
-        publication_date = get_earlier_date(
-            online_publication_date, publication_date
-        )
+        if datetime(*online_publication_date) < datetime(*publication_date):
+            publication_date = online_publication_date
 
     if publication_date:
         return publication_date
@@ -394,44 +393,8 @@ def check_license(raw_record):
                             date.append(str(date_parts[2]))
 
                 date = "-".join(date)
-                date = datetime.datetime.strptime(date, "%Y-%m-%d")
+                date = datetime.strptime(date, "%Y-%m-%d")
                 now = date.today()
                 if date < now:
                     oa = True
     return oa
-
-
-def get_earlier_date(first, second):
-    """
-    Check which date is earlier.
-
-    Parameters
-    ----------
-    param first: list[int], optional
-        - First date
-    param second: list[int], optional
-        - Second date
-
-    Returns
-    ------
-    - list[int]:
-        The earlier date
-    """
-    if first is None:
-        return second
-
-    if second is None:
-        return first
-
-    shortest_length = min(len(first), len(second))
-    for x in range(shortest_length):
-        if first[x] < second[x]:
-            return first
-
-        if second[x] < first[x]:
-            return second
-
-    if len(first) > len(second):
-        return first
-
-    return second
