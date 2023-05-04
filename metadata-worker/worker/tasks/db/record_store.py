@@ -2,6 +2,9 @@
 Script to store converted records in a PostgreSQL DB
 
 ================== Nightwatch usage ==================
+Requires a previous NW step that returns a NW Result, containing a list with a
+dict for each record in the field 'data'
+
 {
     "id": "worker.tasks.db.record_store",
         "name": "Put records in DB",
@@ -100,7 +103,7 @@ def get_params(params) -> (str, str):
     return db, table
 
 
-def insert(records, con, table, no_update) -> dict:
+def insert(records, con, table) -> dict:
     """
     Insert new records into the db
 
@@ -142,7 +145,7 @@ def get_db_records(record_ids, con, table) -> dict:
     return record_map
 
 
-def prepare_inserts(records, db_record_map) -> list(dict):
+def prepare_inserts(records, db_record_map) -> list[dict]:
     """
     Filters for records that don't exist yet
 
