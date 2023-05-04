@@ -49,8 +49,8 @@ def run(opts):
     body = {"delete": {"query": "*:*"}}
     with httpxClient.httpxClient() as customClient:
         response = customClient.post(update_url, json=body)
-        statusCode = customClient.checkStatusCodeOK(response.status_code)
-    if statusCode:
+        statusCodeOK = customClient.checkStatusCodeOK(response.status_code)
+    if statusCodeOK:
         logger.debug("everything was deleted")
         logs.append("everything was deleted")
     else:
