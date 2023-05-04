@@ -1,6 +1,6 @@
 """
-Script to store converted record metadata from crossref format into
-the internal DB-shema
+Script to convert record metadata downloaded from crossref from json format
+into the internal db-schema
 
 ================== Nightwatch usage ==================
 Requires a previous NW step that returns a NW Result containing
@@ -28,7 +28,7 @@ ORCID_RE = re.compile(r"(\d{4}-\d{4}-\d{4}-(\d{3}X|\d{3}x|\d{4}))")
 
 def run(opts):
     """
-    Convert crossref data to internal db-shema.
+    Convert crossref data to internal db-schema.
 
     Parameters
     ----------
@@ -42,10 +42,12 @@ def run(opts):
     ------
     Result:
         - A nightwatch Result with the parameters:
-            - param list[dict] records: contains converted records
-            - param dict metrics, contains metrics about the number
-              of converted records
-            - param list logs, contains logs about fails conversions
+            - param records: list[dict]
+                contains converted records
+            - param metrics: dict
+                contains metrics about the number of converted records
+            - param logs: list[str]
+                contains logs about failed conversions
     """
 
     file_contents = json.loads(opts["data"])
@@ -80,12 +82,12 @@ def run(opts):
 
 def convert(raw_record):
     """
-    Convert one raw crossref record to internal db-shema.
+    Convert one raw crossref record to internal db-schema.
 
     Parameters
     ----------
-    param opts: dict, required
-        - One crossref record
+    - param raw_record: dict, required
+        One crossref record
 
     Returns
     ------
@@ -117,8 +119,8 @@ def get_id(raw_record):
 
     Parameters
     ----------
-    param opts: dict, required
-        - Raw crossref record
+    - param raw_record: dict, required
+        raw crossref record
 
     Returns
     ------
@@ -139,16 +141,18 @@ def get_access_options(raw_record):
 
     Parameters
     ----------
-    param opts: dict, required
-        - Raw crossref record
+    - param raw_record: dict, required
+        raw crossref record
 
     Returns
     ------
     - list[dict] access_options:
-        contains the accessoptions,
-            - str url, url build with the doi
-            - list[str], containing "oa" for open access articles
-              or "ra" for restricted articles
+        contains the access options:
+            - url: str
+                url build with the doi
+            - conditions: list[str]
+                containing "oa" for open access articles
+                or "ra" for restricted articles
     """
     doi = raw_record.get("DOI")
     url = f"https://doi.org/{doi}"
@@ -175,12 +179,12 @@ def get_title(raw_record):
 
     Parameters
     ----------
-    param opts: dict, required
-        - Raw crossref record
+    - param raw_record: dict, required
+        raw crossref record
 
     Returns
     ------
-    - string title:
+    - title: str
        title and subtitle
     """
     title = raw_record.get("title")
@@ -202,8 +206,8 @@ def get_contributors(raw_record):
 
     Parameters
     ----------
-    param opts: dict, required
-        - Raw crossref record
+    - param raw_record: dict, required
+        raw crossref record
 
     Returns
     ------
@@ -240,8 +244,8 @@ def get_contributor_details(contributor):
 
     Parameters
     ----------
-    param opts: dict, required
-        - Raw information about one contributor
+    - param contributor: dict, required
+        raw information about one contributor
 
     Returns
     ------
@@ -296,8 +300,8 @@ def get_publication_date(raw_record):
 
     Parameters
     ----------
-    param opts: dict, required
-        - Raw crossref record
+    - param raw_record: dict, required
+        raw crossref record
 
     Returns
     ------
@@ -334,8 +338,8 @@ def get_identifiers(raw_record):
 
     Parameters
     ----------
-    param opts: dict, required
-        - Raw crossref record
+    - param raw_record: dict, required
+        raw crossref record
 
     Returns
     ------
@@ -358,8 +362,8 @@ def check_license(raw_record):
 
     Parameters
     ----------
-    param opts: dict, required
-        - Raw crossref record
+    - param raw_record: dict, required
+        raw crossref record
 
     Returns
     ------

@@ -2,7 +2,7 @@
 Script to open and read file contents for the next step.
 
 Can be used with a file location specified in the blueprint
-or a file location specified in the data recieved from the previous step,
+or a file location specified in the data received from the previous step,
 without parameters in the blueprint.
 (if both are given, the blueprint location will be used)
 
@@ -33,7 +33,7 @@ from pathlib import Path
 
 def run(opts):
     """
-    Opens the file in a specified location, if avaiable, and returns
+    Opens the file in a specified location, if available, and returns
     the content for the next step.
 
     Parameters
@@ -41,7 +41,7 @@ def run(opts):
     param opts: dict, required
         - opts["data"]: str, optional                   |
           the path to the file that should be opened    | one of these
-        - opts["params"]["path"]: str, optional         | is requried
+        - opts["params"]["path"]: str, optional         | is required
           the path to the file that should be opened    |
 
         - opts["params"]["convert"]: bool, optional

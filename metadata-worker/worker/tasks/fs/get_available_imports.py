@@ -1,16 +1,16 @@
 """
-Script to get avaiable import folders from specified loacation,
+Script to get available import folders from specified location,
 all subfolders without an imported flag
 
 ================== Nightwatch usage ==================
-Should be in an seperated phase with sentinel set to "true",
+Should be in a separated phase with sentinel set to "true",
 the phase should be the first phase of an import-pipeline.
-If more than one folder is found the first folder will be imported
-and a new job is started for the other folders, the job will be run
-automatically after the first job.
+If more than one folder is found, the first folder will be imported
+and a new job is created for the other folders. The job will be run
+automatically after the first job is finished.
 The first task in every following phase of the job should have
 the "passSentinel" parameter set to "true", in order to pass the
-folders paths to the next job.
+folder's paths to the next job.
 
 [
       {

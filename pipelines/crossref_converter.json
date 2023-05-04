@@ -48,7 +48,7 @@
     },
   "variables": {
       "DB_CON": "postgresql://nw:nw@nightwatch-db:5432/nw",
-      "IMPORT_DIR": "$WORKING_DIR/import/$JOB_DATE"
+      "IMPORT_DIR": "$WORKING_DIR/import"
   }
 
 }

@@ -1,12 +1,11 @@
 """
 Script to get avaiable files, with specific extensions, in a specified folder.
 
-
 ================== Nightwatch usage ==================
 Should be the first step in a phase, after a phase with
-the "get_avaiable_imports.py"-task.
-The "passSentinal" parameter should be set to true, in order
-to forward the other folder names from the "get_avaiable_imports.py"-task
+the "get_available_imports.py"-task.
+The "passSentinel" parameter should be set to true, in order
+to forward the other folder names from the "get_available_imports.py"-task
 to the next job.
 
 [
@@ -29,7 +28,7 @@ from pathlib import Path
 
 def run(opts):
     """
-    Finds all files with s specified extension and
+    Finds all files with a specified extension and
     returns the corresponding paths in a list.
 
     Parameters

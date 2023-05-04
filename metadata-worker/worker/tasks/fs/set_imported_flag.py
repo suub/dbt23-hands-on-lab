@@ -5,9 +5,9 @@ named ".IMPORTED" in order to let the next jobs know that this folder
 has already been imported.
 
 ================== Nightwatch usage ==================
-Should be in an seperated phase at the end of an import-pipeline
-The "passSentinal" parameter should be set to true, in order
-to forward the other folder names from the "get_avaiable_imports.py"-task
+Should be in n separated phase at the end of an import-pipeline
+The "passSentinel" parameter should be set to true, in order
+to forward the other folder names from the "get_available_imports.py"-task
 to the next job.
 
 [
@@ -27,7 +27,7 @@ from pathlib import Path
 
 def run(opts):
     """
-    Set an imported-flag in a specified loaction.
+    Set an imported-flag in a specified location.
 
     Parameters
     ----------
