@@ -1,40 +1,83 @@
 import httpx
-from worker.nw.log import get_logger
-
-logger = get_logger(__name__)
-timeout = 30.0
-customClient = httpx.Client(timeout=timeout)
 
 
-def get(url, **params):
-    if "attempt" in params:
-        attempt = params.get("attempt")
-        del params["attempt"]
-    else:
-        attempt = 0
-    with customClient:
+class httpxClient:
+    """
+    A class used to create a httpxClient.
+    If an instance is created it the httpxClient owned by the instance should
+    be closed after use.
+
+    Methods
+    -------
+    get(url, **params)
+        Calls httpx get for given url with custom client and given parameters
+        and returns the result
+    post(url, **params)
+        Calls httpx post for given url with custom client and given parameters
+        and returns the result
+    stream(method, url)
+        Calls httpx stream for given url with custom client and given method
+        parameter and returns the stream
+    checkStatusCodeOK(statusCode)
+        Uses httpx.codes.OK to check if given statusCode is OK
+    close(self)
+        Closes the httpxClient owned by the instance
+    """
+
+    def __init__(self, timeout=30.0):
+        """
+        Parameters
+        ----------
+        param timeout : float
+            Default value: 30 seconds
+            The timeout set on the client instance, used as the default
+            timeout for get and post requests.
+            Can be overwritten in individual calls in *params
+        """
+        self.timeout = timeout
+        self.client = httpx.Client(timeout=timeout)
+        return None
+
+    def __del__(self):
+        self.close()
+        return None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
+
+    def close(self):
+        self.client.close()
+        return None
+
+    def get(self, url: str, **params):
+        if "attempt" in params:
+            attempt = params.get("attempt")
+            del params["attempt"]
+        else:
+            attempt = 0
         try:
-            r = customClient.get(url, **params)
+            r = self.client.get(url, **params)
         except httpx.ReadTimeout as e:
             if attempt < 3:
                 params["attempt"] = attempt + 1
-                params["timeout"] = params["timeout"] * 2 if "timeout" in params else timeout * 2
-                r = get(url, **params)
+                if "timeout" in params:
+                    params["timeout"] = params["timeout"] * 2
+                else:
+                    params["timeout"] = self.timeout * 2
+                r = self.get(url, **params)
             else:
                 raise e
-    return r
+        return r
 
+    def post(self, url: str, **params):
+        r = self.client.post(url, **params)
+        return r
 
-def post(url, **params):
-    with customClient:
-        logger.debug(f"posting to {url} in httpxClient")
-        r = customClient.post(url, **params)
-    return r
+    def stream(self, method, url):
+        return self.client.stream(method, url)
 
-
-def stream(method, url):
-    return customClient.stream(method, url)
-
-
-def checkStatusCodeOK(statusCode):
-    return statusCode == httpx.codes.OK
+    def checkStatusCodeOK(self, statusCode: int) -> bool:
+        return statusCode == httpx.codes.OK

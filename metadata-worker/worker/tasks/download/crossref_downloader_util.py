@@ -105,7 +105,8 @@ def retrieve(
     total_results = 0
     done = 0
 
-    r = get(headers, url, construct_params(filter, cursor, rows))
+    customClient = httpxClient.httpxClient()
+    r = get(customClient, headers, url, construct_params(filter, cursor, rows))
     data, total, item_count, next_cursor = extract_data(r)
 
     if next_cursor is not None:
@@ -119,7 +120,10 @@ def retrieve(
     while done < total_results:
         # slow down retrieval
         # time.sleep(1)
-        r = get(headers, url, construct_params(filter, cursor, rows))
+        r = get(customClient,
+                headers,
+                url,
+                construct_params(filter, cursor, rows))
         data, total, item_count, next_cursor = extract_data(r)
         if item_count == 0:
             break
@@ -128,9 +132,10 @@ def retrieve(
             cursor = next_cursor
             logger.debug(f"Items retrieved: {done}")
             yield data
+    customClient.close()
 
 
-def get(headers, url, url_params, attempt=1):
+def get(customClient, headers, url, url_params):
     """
     Calls the given url with given headers and retries three times (with an
     increasing time interval between calls) if the call is unsuccessful
@@ -153,13 +158,13 @@ def get(headers, url, url_params, attempt=1):
     """
 
     try:
-        r = httpxClient.get(url,
-                            headers=headers,
-                            params=url_params,
-                            timeout=60)
+        r = customClient.get(url,
+                             headers=headers,
+                             params=url_params,
+                             timeout=60)
     except Exception as e:
         raise ValueError(f"Request Error for {url}: {e}")
-    if httpxClient.checkStatusCodeOK(r.status_code):
+    if customClient.checkStatusCodeOK(r.status_code):
         try:
             return r.json()
         except ValueError:
@@ -171,13 +176,7 @@ def get(headers, url, url_params, attempt=1):
             f"Bad status code for {r.url}: {r.status_code}: {r.text}"
             )
     else:
-        if attempt > 3:
-            raise ValueError(f"Three unsuccessful attempts {r.url}")
-        logger.warning(
-            f"Server Error, wait {60*attempt} seconds to try again: {r.url}"
-            )
-        time.sleep(60*attempt)
-        return get(headers, url, url_params, attempt+1)
+        raise ValueError(f"Server error for url: {r.url}")
 
 
 def construct_params(filter, cursor, rows):
