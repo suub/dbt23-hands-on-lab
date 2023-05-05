@@ -10,6 +10,7 @@ x-amqp-environment: &amqpSettings
   # deleted. In case the worker crashes, the message gets queued again.
   AMQP_WORKING_QUEUE_CHANNEL: nw-working
   AMQP_URL: amqp://guest:guest@rabbitmq:5672/%2F
+
 x-db-environment: &dbSettings
   POSTGRES_PASSWORD: nw
   POSTGRES_USER: nw
@@ -95,9 +96,25 @@ services:
     container_name: nightwatch-solr
     ports:
       - "8983:8983"
+    networks:
+      - solr
     command:
       - solr-precreate
       - workshop
+
+  search-interface:
+    container_name: search-interface
+    image: flask-app
+    hostname: search-local
+    ports:
+      - "5000:5000"
+    depends_on:
+      - solr
+    networks:
+      - solr
+
+networks:
+  solr:
 
 volumes:
   nwdata:
