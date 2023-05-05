@@ -99,7 +99,8 @@ def get_params(params) -> (str, str, str, datetime):
     solr_url = params.get("solr_url")
     db = params.get("db")
     table = params.get("table")
-    last_index = params.get("last_index", "2000-01-01T00:00:00+00:00")
+    default_date = "2000-01-01T00:00:00+00:00"
+    last_index = params.get("last_index", default_date) or default_date
     last_index = datetime.fromisoformat(last_index)
 
     if not solr_url:
