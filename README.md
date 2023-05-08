@@ -2,7 +2,7 @@
 
 This repository contains information that is needed to participate in the Nightwatch hands-on lab [Das Tool Nightwatch - Metadatenmanagement zum Anfassen](https://dbt2023.abstractserver.com/program/#/details/sessions/39) at BiblioCon2023.
 
-Please complete the steps in #preparation before the workshop.
+Please complete the steps in [Preparation](#preparation) before the workshop.
 
 [[_TOC_]]
 
