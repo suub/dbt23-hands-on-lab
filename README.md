@@ -35,12 +35,12 @@ docker compose up -d
 
 The following webapps will we available after a few seconds:
 
-* Nightwatch UI at [http://localhost:4000]()
-* RabbitMQ Management console at [http://localhost:15672]() (Username: `guest`, Password: `guest`)
-* Solr Admin at [http://localhost:8983]() (will be filled during the workshop)
-* "Discovery" App at [http://localhost:5000]() (will be filled during the workshop)
+* Nightwatch UI at [localhost:4000](http://localhost:4000)
+* RabbitMQ Management console at [localhost:15672](http://localhost:15672) (Username: `guest`, Password: `guest`)
+* Solr Admin at [localhost:8983](http://localhost:8983) (will be filled during the workshop)
+* "Discovery" App at [localhost:5000](http://localhost:5000) (will be filled during the workshop)
 
-Try running the Sleep Pipeline from the Nightwatch UI -> Pipelines View. It's a simple Pipeline to check the connection between Nightwatch, RabbitMQ and the Metadata-Worker.
+Visit the Nightwatch UI, create a user and login. Try running the Sleep Pipeline from the Pipelines View. It's a simple Pipeline to check the connection between Nightwatch, RabbitMQ and the Metadata-Worker.
 
 When the Sleep Pipeline succeeds, you are prepared for the workshop :tada:. 
 
