@@ -96,25 +96,16 @@ services:
     container_name: nightwatch-solr
     ports:
       - "8983:8983"
-    networks:
-      - solr
     command:
       - solr-precreate
       - workshop
 
   search-interface:
     container_name: search-interface
-    image: flask-app
+    build: ./search-web-app
     hostname: search-local
     ports:
       - "5000:5000"
-    depends_on:
-      - solr
-    networks:
-      - solr
-
-networks:
-  solr:
 
 volumes:
   nwdata:

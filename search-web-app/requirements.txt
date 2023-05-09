@@ -1,2 +1,4 @@
 flask
 simplejson
+psycopg2-binary
+httpx
