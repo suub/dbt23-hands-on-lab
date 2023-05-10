@@ -21,11 +21,11 @@
             "passSentinel": true
           },
           {
-            "id": "worker.tasks.importer.json",
+            "id": "worker.tasks.importers.json",
             "name": "Read file contents"
           },
           {
-            "id": "worker.tasks.converter.crossref_article_converter",
+            "id": "worker.tasks.converters.crossref_article_converter",
             "name": "Convert to internal schema"
           },
           {
@@ -49,6 +49,6 @@
   "variables": {
       "DB_CON": "postgresql://nw:nw@nightwatch-db:5432/nw",
       "IMPORT_DIR": "$WORKING_DIR/import"
-  }
-
+  },
+  "working_dir": "/data/crossref"
 }
