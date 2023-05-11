@@ -10,6 +10,7 @@ x-amqp-environment: &amqpSettings
   # deleted. In case the worker crashes, the message gets queued again.
   AMQP_WORKING_QUEUE_CHANNEL: nw-working
   AMQP_URL: amqp://guest:guest@rabbitmq:5672/%2F
+
 x-db-environment: &dbSettings
   POSTGRES_PASSWORD: nw
   POSTGRES_USER: nw
@@ -114,6 +115,13 @@ services:
         sh apply_solr_schema.sh
         echo "shutting down"
         exit
+
+  search-interface:
+    container_name: nightwatch-search
+    build: ./search-web-app
+    hostname: search-local
+    ports:
+      - "5000:5000"
 
 volumes:
   nwdata:
