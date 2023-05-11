@@ -99,6 +99,22 @@ services:
     command:
       - solr-precreate
       - workshop
+    volumes:
+      - solrdata:/var/solr
+  solr-sidecar:
+    image: curlimages/curl
+    volumes:
+      - ./solr/apply_solr_schema.sh:/apply_solr_schema.sh
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        echo "waiting for solr"
+        sleep 15
+        echo "posting schema"
+        sh apply_solr_schema.sh
+        echo "shutting down"
+        exit
 
   search-interface:
     container_name: nightwatch-search
@@ -109,3 +125,4 @@ services:
 
 volumes:
   nwdata:
+  solrdata:
