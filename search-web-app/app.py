@@ -76,12 +76,10 @@ def queryDBforFullRecords(records):
     query = "SELECT * FROM {} WHERE id in %(id_list)s"
     table = "records"
 
-    db_con = psycopg2.connect(DB_CONN, cursor_factory=DictCursor)
-    cur = db_con.cursor()
-    cur.execute(SQL(query).format(Identifier(table)), {"id_list": id_list})
-    db_records = cur.fetchall()
-    cur.close()
-    db_con.close()
+    with psycopg2.connect(DB_CONN, cursor_factory=DictCursor) as db_con
+        with db_con.cursor() as cur
+            cur.execute(SQL(query).format(Identifier(table)), {"id_list": id_list})
+            db_records = cur.fetchall()
 
     db_records = [dict(r) for r in db_records]
     return db_records

@@ -162,7 +162,6 @@ def convert_db_record(db_record):
         "author": get_authors(db_record),
         "year": get_year(db_record),
         "issn": get_identifiers(db_record, "issn"),
-        "abstract": ""
     }
     rec["title_authors"] = get_title_author(rec["title"], rec["author"])
     return rec

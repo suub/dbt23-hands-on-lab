@@ -101,7 +101,7 @@ services:
       - workshop
 
   search-interface:
-    container_name: search-interface
+    container_name: nightwatch-search
     build: ./search-web-app
     hostname: search-local
     ports:
