@@ -109,6 +109,7 @@ def convert(raw_record):
     record["publication_date"] = get_publication_date(raw_record)
     record["identifiers"] = get_identifiers(raw_record)
     record["source"] = "crossref"
+    record["abstract"] = get_abstract(raw_record)
 
     return record
 
@@ -398,3 +399,10 @@ def check_license(raw_record):
                 if date < now:
                     oa = True
     return oa
+
+
+def get_abstract(raw_record):
+    """
+    TODO
+    """
+    return None

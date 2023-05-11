@@ -162,6 +162,7 @@ def convert_db_record(db_record):
         "author": get_authors(db_record),
         "year": get_year(db_record),
         "issn": get_identifiers(db_record, "issn"),
+        "abstract": get_abstract(db_record)
     }
     rec["title_authors"] = get_title_author(rec["title"], rec["author"])
     return rec
@@ -234,3 +235,9 @@ def extract_identifiers(identifiers, identifier_type):
     """
     filtered = filter(lambda i: i["type"] == identifier_type, identifiers)
     return list(map(lambda i: i["value"], filtered))
+
+
+def get_abstract(db_record):
+    if not db_record.get("abstract"):
+        return None
+    return db_record["abstract"]

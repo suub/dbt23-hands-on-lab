@@ -109,5 +109,6 @@ CREATE TABLE records (
 	publication_date _int2 NULL,
 	access_options jsonb NULL,
 	identifiers jsonb NULL,
+  abstract text NULL,
 	CONSTRAINT records_pkey PRIMARY KEY (id)
 );

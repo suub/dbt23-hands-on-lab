@@ -39,7 +39,8 @@ RECORDS_TABLE_COLUMNS = [
     "identifiers",
     "publication_date",
     "source",
-    "title"
+    "title",
+    "abstract"
 ]
 # JSONB columns need extra treatment
 JSONB_COLUMNS = [
