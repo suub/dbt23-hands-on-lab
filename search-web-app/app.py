@@ -10,7 +10,7 @@ app = Flask(__name__)
 BASE_PATH='http://solr:8983/solr/workshop/select?wt=json&df=name&rows=250&q='
 DB_CONN='postgresql://nw:nw@nightwatch-db:5432/nw'
 
-SOLR_STRING_FIELDS = ["title", "author", "title_authors", "abstract"]
+SOLR_STRING_FIELDS = ["title", "author", "title_authors"]
 SOLR_INT_FIELDS = ["year"]
 RECORDS_TABLE_COLUMNS = [
     "access_options",
