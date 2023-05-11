@@ -29,7 +29,7 @@ services:
       # It's easily possible to have several workers running at the same time:
       replicas: 1
     container_name: nightwatch-worker
-    image: gitlab.suub.uni-bremen.de:5050/public-projects/nightwatch-deployment/worker:2023-04-05_509e1770
+    image: gitlab.suub.uni-bremen.de:5050/public-projects/nightwatch-deployment/worker:2023-05-11_598432ea
     environment:
       << : [*amqpSettings, *tzSettings]
       # Set the loglevel to DEBUG
