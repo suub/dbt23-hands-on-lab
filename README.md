@@ -19,6 +19,7 @@ Clone this repository
 
 ```
 git clone https://gitlab.suub.uni-bremen.de/public-projects/nightwatch-workshop.git
+cd nightwatch-workshop
 ```
 
 Pull all images (could take a few minutes, don't use mobile data)
