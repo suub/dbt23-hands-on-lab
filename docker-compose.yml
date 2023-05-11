@@ -112,8 +112,6 @@ services:
         sleep 15
         echo "posting schema"
         sh apply_solr_schema.sh
-        echo "shutting down"
-        exit
 
 volumes:
   nwdata:
