@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 import httpx
-import simplejson
-import sys
+import json
 import psycopg2
 from psycopg2.extras import DictCursor
 from psycopg2.sql import SQL, Identifier
@@ -44,10 +43,8 @@ def index():
             query = buildQuery(query_term)
 
         # query for information and return results
-        print("{}{}".format(BASE_PATH, query), file=sys.stderr)
         connection = httpx.get("{}{}".format(BASE_PATH, query))
-        print(connection, file=sys.stderr)
-        response = simplejson.load(connection)
+        response = json.load(connection)
         numresults = response['response']['numFound']
         results = response['response']['docs']
         if numresults > 0:
@@ -76,8 +73,8 @@ def queryDBforFullRecords(records):
     query = "SELECT * FROM {} WHERE id in %(id_list)s"
     table = "records"
 
-    with psycopg2.connect(DB_CONN, cursor_factory=DictCursor) as db_con
-        with db_con.cursor() as cur
+    with psycopg2.connect(DB_CONN, cursor_factory=DictCursor) as db_con:
+        with db_con.cursor() as cur:
             cur.execute(SQL(query).format(Identifier(table)), {"id_list": id_list})
             db_records = cur.fetchall()
 
