@@ -34,7 +34,9 @@ and check if you can start them on your computer with
 docker compose up -d
 ```
 
-The following webapps will we available after a few seconds:
+After a few seconds all containers except for the solr-sidecar should be up and running.
+The following webapps will be available:
+
 
 * Nightwatch UI at [localhost:4000](http://localhost:4000)
 * RabbitMQ Management console at [localhost:15672](http://localhost:15672) (Username: `guest`, Password: `guest`)
