@@ -41,7 +41,7 @@ The following webapps will be available:
 * Nightwatch UI at [localhost:4000](http://localhost:4000)
 * RabbitMQ Management console at [localhost:15672](http://localhost:15672) (Username: `guest`, Password: `guest`)
 * Solr Admin at [localhost:8983](http://localhost:8983) (will be filled during the workshop)
-* "Discovery" App at [localhost:5000](http://localhost:5000) (will be filled during the workshop) -- added in next version
+* "Discovery" App at [localhost:5000](http://localhost:5000) (will be filled during the workshop)
 
 Visit the Nightwatch UI, create a user and login. Try running the Sleep Pipeline from the Pipelines View. It's a simple Pipeline to check the connection between Nightwatch, RabbitMQ and the Metadata-Worker.
 
