@@ -54,4 +54,4 @@ More complex pipelines will be added (by you) during the workshop.
 
 If you have any issues, please don't hesitate to contact us before the hands-on lab.
 
-[Contact us](mailto:nitghtwatch@suub.uni-bremen.de)
+[Contact us](mailto:nightwatch@suub.uni-bremen.de)
